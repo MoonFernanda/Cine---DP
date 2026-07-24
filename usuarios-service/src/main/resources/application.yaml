@@ -1,3 +1,65 @@
 spring:
   application:
     name: usuarios-service
+
+  autoconfigure:
+    exclude:
+      - org.springframework.cloud.netflix.eureka.EurekaClientAutoConfiguration
+      - org.springframework.cloud.netflix.eureka.EurekaDiscoveryClientConfiguration
+
+  cloud:
+    discovery:
+      enabled: false
+    service-registry:
+      auto-registration:
+        enabled: false
+
+  datasource:
+    url: jdbc:mysql://localhost:3306/usuariosdb?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC&connectTimeout=20000&socketTimeout=20000
+    username: root
+    password: root
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    hikari:
+      initialization-fail-timeout: 0
+      connection-timeout: 20000
+      maximum-pool-size: 5
+      minimum-idle: 1
+      idle-timeout: 30000
+      max-lifetime: 1800000
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        format_sql: true
+        dialect: org.hibernate.dialect.MySQLDialect
+    open-in-view: false
+
+  sql:
+    init:
+      mode: never
+
+  main:
+    lazy-initialization: true
+
+flyway:
+  enabled: true
+  baseline-on-migrate: true
+  connect-retries: 10
+  connect-retries-interval: 5
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health
+
+eureka:
+  client:
+    enabled: false
+    register-with-eureka: false
+    fetch-registry: false
+
+server:
+  port: 8080
